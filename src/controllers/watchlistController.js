@@ -4,17 +4,35 @@ const fetch = require('node-fetch');
 exports.saveWatchlist = async (req, res) => {
     const { userId, coins } = req.body;
     try {
-        await redisClient.set(`watchlist:${userId}`, JSON.stringify(coins));
-        res.send({ message: 'Watchlist saved' });
+        const existingWatchlist = await redisClient.get(`watchlist:${userId}`);
+        let updatedWatchlist = coins;
+
+        if (existingWatchlist) {
+            const parsedWatchlist = JSON.parse(existingWatchlist);
+            updatedWatchlist = [...new Set([...parsedWatchlist, ...coins])];
+        }
+
+        await redisClient.set(`watchlist:${userId}`, JSON.stringify(updatedWatchlist));
+        res.send({ message: 'Watchlist updated' });
     } catch (error) {
         res.status(500).send({ error: 'Failed to save watchlist' });
     }
 };
 
+
 exports.getWatchlist = async (req, res) => {
     try {
-        const watchlist = await redisClient.get(`watchlist:${req.params.userId}`);
-        res.send(JSON.parse(watchlist));
+        const watchlist = JSON.parse(await redisClient.get(`watchlist:${req.params.userId}`));
+        if (!watchlist) {
+            return res.status(404).send({ error: 'Watchlist not found' });
+        }
+
+        const ids = watchlist.join(',');
+        const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        res.send(data);
     } catch (error) {
         res.status(500).send({ error: 'Failed to retrieve watchlist' });
     }
