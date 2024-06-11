@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const watchlistController = require('../controllers');
 
+router.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
+
 /**
  * @swagger
  * components:

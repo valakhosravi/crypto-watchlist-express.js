@@ -6,7 +6,7 @@ exports.saveWatchlist = async (req, res) => {
     try {
         const existingWatchlist = await redisClient.get(`watchlist:${userId}`);
         let updatedWatchlist = coins;
-
+        
         if (existingWatchlist) {
             const parsedWatchlist = JSON.parse(existingWatchlist);
             updatedWatchlist = [...new Set([...parsedWatchlist, ...coins])];
