@@ -5,10 +5,10 @@ const app = express();
 app.use(express.json());
 
 // Importing route modules
-const watchlistRoutes = require('./routes/watchlistRoutes');
+const routes = require('./routes');
 
 // Using route modules
-app.use('/watchlist', watchlistRoutes);
+app.use('/', routes);
 
 // Swagger documentation setup
 const swaggerSetup = require('./swagger');

@@ -31,7 +31,7 @@ const watchlistController = require('../controllers/watchlistController');
 
 /**
  * @swagger
- * /watchlist:
+ * /user:
  *   post:
  *     summary: Save a user's watchlist
  *     tags: [Watchlist]
@@ -55,11 +55,11 @@ const watchlistController = require('../controllers/watchlistController');
  *       500:
  *         description: Failed to save watchlist
  */
-router.post('/', watchlistController.saveWatchlist);
+router.post('/user', watchlistController.saveWatchlist);
 
 /**
  * @swagger
- * /watchlist/user/{userId}:
+ * /user/{userId}:
  *   get:
  *     summary: Retrieve a user's watchlist
  *     tags: [Watchlist]
@@ -86,7 +86,7 @@ router.get('/user/:userId', watchlistController.getWatchlist);
 
 /**
  * @swagger
- * /watchlist/updates/{userId}:
+ * /user/updates/{userId}:
  *   get:
  *     summary: Get price updates for a user's watchlist
  *     tags: [Watchlist]
@@ -107,7 +107,7 @@ router.get('/user/:userId', watchlistController.getWatchlist);
  *       500:
  *         description: Failed to get updates
  */
-router.get('/updates/:userId', watchlistController.getWatchlistUpdates);
+router.get('/user/updates/:userId', watchlistController.getWatchlistUpdates);
 
 /**
  * @swagger
@@ -118,7 +118,7 @@ router.get('/updates/:userId', watchlistController.getWatchlistUpdates);
 
 /**
  * @swagger
- * /watchlist/search:
+ * /search:
  *   get:
  *     summary: Search for cryptocurrencies
  *     tags: [Search]
@@ -150,7 +150,7 @@ router.get('/search', watchlistController.search);
 
 /**
  * @swagger
- * /watchlist/top-coins:
+ * /top-coins:
  *   get:
  *     summary: Get the top cryptocurrencies by market cap
  *     tags: [TopCoins]
