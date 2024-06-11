@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const watchlistController = require('../controllers/watchlistController');
+const watchlistController = require('../controllers');
 
 /**
  * @swagger
@@ -86,7 +86,7 @@ router.get('/user/:userId', watchlistController.getWatchlist);
 
 /**
  * @swagger
- * /user/updates/{userId}:
+ * /user/{userId}/updates:
  *   get:
  *     summary: Get price updates for a user's watchlist
  *     tags: [Watchlist]
@@ -107,7 +107,7 @@ router.get('/user/:userId', watchlistController.getWatchlist);
  *       500:
  *         description: Failed to get updates
  */
-router.get('/user/updates/:userId', watchlistController.getWatchlistUpdates);
+router.get('/user/:userId/updates', watchlistController.getWatchlistUpdates);
 
 /**
  * @swagger
