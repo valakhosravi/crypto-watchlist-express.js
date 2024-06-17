@@ -17,7 +17,7 @@ COPY . .
 EXPOSE 3000
 
 # Define environment variables
-ENV REDIS_HOST=redis
+ENV REDIS_HOST=localhost
 ENV REDIS_PORT=6379
 ENV NODE_ENV=production
 

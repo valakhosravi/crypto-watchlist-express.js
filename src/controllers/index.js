@@ -19,6 +19,23 @@ exports.saveWatchlist = async (req, res) => {
     }
 };
 
+exports.removeCoinFromWatchlist = async (req, res) => {
+    const { userId, coin } = req.params;
+    try {
+        const existingWatchlist = await redisClient.get(`watchlist:${userId}`);
+        if (!existingWatchlist) {
+            return res.status(404).send({ error: 'Watchlist not found' });
+        }
+
+        const parsedWatchlist = JSON.parse(existingWatchlist);
+        const updatedWatchlist = parsedWatchlist.filter(c => c !== coin);
+
+        await redisClient.set(`watchlist:${userId}`, JSON.stringify(updatedWatchlist));
+        res.send({ message: 'Coin removed from watchlist' });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to remove coin from watchlist' });
+    }
+}
 
 exports.getWatchlist = async (req, res) => {
     try {
@@ -74,4 +91,3 @@ exports.getTopCoins = async (req, res) => {
         res.status(500).send({ error: 'Failed to fetch top coins data' });
     }
 };
-

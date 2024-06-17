@@ -90,6 +90,43 @@ router.get('/user/:userId', watchlistController.getWatchlist);
 
 /**
  * @swagger
+ * /{userId}/{coin}:
+ *   delete:
+ *     summary: Remove a coin from a user's watchlist
+ *     tags: [Watchlist]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *       - in: path
+ *         name: coin
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The coin ID to be removed
+ *     responses:
+ *       200:
+ *         description: Coin removed from watchlist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Coin removed from watchlist
+ *       404:
+ *         description: Watchlist not found
+ *       500:
+ *         description: Failed to remove coin from watchlist
+ */
+router.delete('/:userId/:coin', watchlistController.removeCoinFromWatchlist);
+
+/**
+ * @swagger
  * /user/{userId}/updates:
  *   get:
  *     summary: Get price updates for a user's watchlist
